@@ -2,7 +2,7 @@
 
 MXTerm 是一个跨平台 Shell 增强工具。它接入现有的 `zsh`、`bash`、`PowerShell`，在保留原生命令体验的同时，增加自然语言转命令、安全校验、会话上下文、agent 规划能力，以及 Ollama 本地模型接入。
 
-[English](README.md)
+[English](README.en.md)
 
 ## 支持平台
 

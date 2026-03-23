@@ -1,20 +1,26 @@
 # MXTerm
 
-MXTerm is a cross-platform shell enhancement tool that adds natural-language command translation, safety checks, session-aware shell actions, agent-style planning, and Ollama-powered intent resolution to existing shells.
+MXTerm 是一个跨平台 Shell 增强工具。它接入现有的 `zsh`、`bash`、`PowerShell`，在保留原生命令体验的同时，增加自然语言转命令、安全校验、会话上下文、agent 规划能力，以及 Ollama 本地模型接入。
 
-[简体中文](README.zh-CN.md)
+[English](README.en.md)
 
-## Supported Platforms
+## 支持平台
 
-- macOS: `zsh` primary, `bash` secondary
-- Linux: `bash` primary, `zsh` secondary
-- Windows: PowerShell 7+ primary, Windows PowerShell 5.1 basic support
+- macOS：优先支持 `zsh`，兼容 `bash`
+- Linux：优先支持 `bash`，兼容 `zsh`
+- Windows：优先支持 PowerShell 7+，基础支持 Windows PowerShell 5.1
 
-Any terminal application that launches one of these shells can use MXTerm after installation, including Terminal.app, iTerm2, GNOME Terminal, Windows Terminal, and VS Code Terminal.
+只要终端程序启动的是受支持的 Shell，安装后都可以使用 MXTerm，例如：
 
-## Install
+- Terminal.app
+- iTerm2
+- GNOME Terminal
+- Windows Terminal
+- VS Code Terminal
 
-### Recommended: `pipx`
+## 安装
+
+### 推荐方式：`pipx`
 
 ```bash
 pipx install mxterm
@@ -22,9 +28,9 @@ mxterm config init
 mxterm install --shell auto
 ```
 
-### Install from GitHub right now
+### 现在即可从 GitHub 安装
 
-If PyPI is not live yet, install directly from this repository:
+如果你还没有发布到 PyPI，可以直接从当前仓库安装：
 
 ```bash
 pipx install git+https://github.com/ziguishian/mxterm.git
@@ -32,7 +38,7 @@ mxterm config init
 mxterm install --shell auto
 ```
 
-### Local development install
+### 本地开发安装
 
 ```bash
 python -m pip install -e .[dev]
@@ -40,7 +46,7 @@ mxterm config init
 mxterm install --shell auto
 ```
 
-### One-line installers
+### 一键安装脚本
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/install/install.sh | sh
@@ -50,30 +56,30 @@ curl -fsSL https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/inst
 irm https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/install/install.ps1 | iex
 ```
 
-### Binary releases
+### 二进制发布包
 
-GitHub Releases can ship:
+GitHub Releases 可以提供：
 
 - `mxterm-macos-universal.tar.gz`
 - `mxterm-linux-x86_64.tar.gz`
 - `mxterm-windows-x64.zip`
 
-## Quick Start
+## 快速开始
 
-1. Install MXTerm.
-2. Run `mxterm install --shell auto`.
-3. Restart the shell, or reload the profile.
-4. Type natural language directly, or use `mx` explicitly.
+1. 安装 MXTerm
+2. 运行 `mxterm install --shell auto`
+3. 重启终端，或重新加载对应 profile
+4. 直接输入自然语言，或使用 `mx` 显式调用
 
-Examples:
+示例：
 
 ```bash
-help me list files in this folder
-mx install dependencies for this project
+帮我看看当前目录有哪些文件
+mx 帮我安装这个项目的依赖
 gti status
 ```
 
-## CLI Commands
+## 常用命令
 
 ```bash
 mxterm doctor
@@ -94,8 +100,8 @@ mxterm model use qwen3:14b
 mxterm permission current
 mxterm permission use high
 mxterm resolve --shell bash --cwd "$PWD" --input "show files here"
-mxterm explain --shell powershell --cwd . --input "find large files here"
-mxterm run --shell powershell --cwd . --input "show files here" --yes
+mxterm explain --shell powershell --cwd . --input "帮我查看当前目录"
+mxterm run --shell powershell --cwd . --input "帮我看看当前目录" --yes
 mxterm history
 mxterm session
 mxterm reset-session
@@ -106,79 +112,79 @@ mxterm logs clear
 mxterm self-update
 ```
 
-## How It Works
+## 工作方式
 
-- Valid shell commands pass through directly.
-- Unknown or natural-language input is routed into MXTerm.
-- MXTerm detects platform, shell, path style, and available tools.
-- Ollama translates intent into an agent-style shell plan.
-- MXTerm applies local safety checks before execution.
-- Dangerous commands can be blocked or require confirmation.
+- 如果输入本身已经是合法命令，MXTerm 直接放行
+- 如果输入更像自然语言，MXTerm 会调用 Ollama 进行翻译
+- 所有自然语言请求默认都会经过 agent 决策层
+- 简单请求通常会退化成单步执行
+- 多步骤请求会生成一个短计划，再进入确认和执行流程
+- 执行前会先做本地风险扫描
 
-## Discoverability
+## 帮助命令
 
-Run `mxterm help` to see:
+运行 `mxterm help` 可以看到：
 
-- the kinds of tasks MXTerm can handle
-- example natural-language requests
-- the current configured model
-- useful commands for diagnostics, history, hooks, and model switching
+- MXTerm 能处理哪些任务
+- 推荐的自然语言示例
+- 当前配置中的模型名
+- 常用的诊断、历史、hook、自定义模型命令
 
-## Model Management
+## 模型管理
 
-MXTerm stores the active Ollama model in its config file.
+MXTerm 会把当前使用的 Ollama 模型保存在配置文件中。
 
-- `mxterm model list` shows installed Ollama models and highlights the configured one
-- `mxterm model current` prints the current configured model
-- `mxterm model use <name>` switches MXTerm to another installed model
-- `mxterm model use <name> --force` saves a model name even if Ollama is temporarily unavailable
+- `mxterm model list`：查看已安装模型，并高亮当前配置模型
+- `mxterm model current`：显示当前配置模型
+- `mxterm model use <name>`：切换到另一个已安装模型
+- `mxterm model use <name> --force`：即使 Ollama 当前不可达，也强制写入配置
 
-## Safety
+## 安全机制
 
-MXTerm ships with rule-based checks for:
+当前版本会检测以下高风险模式：
 
 - `rm -rf`
-- `shutdown`, `reboot`
-- `mkfs`, `dd`, `format`
-- risky redirections to system paths
-- chained or privileged commands
+- `shutdown` / `reboot`
+- `mkfs`
+- `dd`
+- `format`
+- 覆盖系统关键路径
+- 链式命令和提权命令
 
-Current defaults are conservative:
+默认策略：
 
-- low-risk AI commands can run directly
-- medium-risk commands require confirmation
-- high-risk commands are blocked by default
+- 低风险 AI 命令可直接执行
+- 中风险命令需要确认
+- 高风险命令默认阻断
 
-Permission levels:
+权限级别：
 
-- `low`: every executable action requires confirmation; multi-step agent runs ask before each step
-- `medium`: current balanced default; MXTerm confirms based on risk and route
-- `high`: execute allowed commands immediately without confirmation prompts
+- `low`：每一条可执行动作都要确认；多步 agent 会逐步确认
+- `medium`：默认平衡模式；按风险和路由决定是否确认
+- `high`：允许的命令直接执行，不弹确认
 
-MXTerm also writes JSONL execution logs under the platform-specific runtime directory, for example:
+MXTerm 还会把执行日志写入 JSONL 文件，例如：
 
-- Windows: `%LOCALAPPDATA%\\MXTerm\\logs\\mxterm.log.jsonl`
-- macOS / Linux: `~/.local/state/MXTerm/logs/mxterm.log.jsonl` or the equivalent directory reported by `platformdirs`
+- Windows：`%LOCALAPPDATA%\\MXTerm\\logs\\mxterm.log.jsonl`
+- macOS / Linux：`~/.local/state/MXTerm/logs/mxterm.log.jsonl`
 
-## Shell Integration
+## Shell 接入说明
 
-- `zsh` installs a custom `accept-line` widget so pressing Enter can auto-capture unresolved input before `command not found`
-- `bash` binds Enter through Readline with `bind -x`, while keeping `command_not_found_handle` as a fallback
-- PowerShell uses PSReadLine Enter interception when available, with the `mx` alias as a fallback
-- all generated hooks export session markers such as `MXTERM_HOOK_ACTIVE`, `MXTERM_HOOK_SHELL`, and `MXTERM_HOOK_AUTO_CAPTURE_MODE`
-- `mxterm hooks doctor --shell <name>` checks both generated files and whether the current shell session actually loaded the MXTerm hook
-- when MXTerm sends a natural-language request to Ollama, the shell hook shows the active model name and a loading spinner before the preview appears
-- if Ollama returns no executable shell action, MXTerm asks the user to enter another request instead of emitting a fake command
-- destructive delete requests can preview matching files before confirmation when MXTerm can resolve the targets locally
-- all natural-language requests now run through the MXTerm agent layer
-- `mxterm run` can execute agent plans step by step with local preflight checks, optional per-step confirmation, and retry-on-failure behavior
-- commands that change session state, such as `cd`, run in the current shell session through generated hook code
+- `zsh` 会安装自定义 `accept-line` widget，在按下 Enter 时优先接管未解析输入
+- `bash` 会通过 Readline 的 `bind -x` 在 Enter 时优先接管未解析输入
+- PowerShell 优先使用 PSReadLine 的 Enter 拦截，同时保留 `mx` 显式入口
+- 所有生成的 hook 都会写入会话标记，例如 `MXTERM_HOOK_ACTIVE`
+- `mxterm hooks doctor --shell <name>` 会同时检查 hook 文件和当前会话是否真的已加载
+- 当自然语言请求进入 Ollama 时，shell hook 会显示当前模型名和加载动画
+- 如果 Ollama 没有返回可执行命令，MXTerm 会提示你重新输入，而不是伪造命令
+- 删除类请求在可解析目标时，会先展示命中预览，再进入确认流程
+- 所有自然语言请求都会走 agent 层
+- `mxterm run` 在执行 agent 计划时，会先做本地预检查，并支持分步确认和失败重试
+- `cd` 这类会改变当前终端状态的动作，会在当前 Shell 会话内执行
 
-## Configuration
+## 配置
 
-MXTerm stores runtime files under the user config, data, and state directories reported by `platformdirs`.
-
-Default config:
+默认配置示例：
 
 ```toml
 [ollama]
@@ -209,23 +215,23 @@ retry_on_failure = true
 max_retries = 1
 ```
 
-Auto-capture modes:
+自动接管模式：
 
-- `smart`: capture natural-language input and most unresolved multi-word lines
-- `natural_language`: only capture clear natural-language requests
-- `always`: aggressively send unresolved input to MXTerm first
+- `smart`：接管自然语言和大多数未解析的多词输入
+- `natural_language`：只接管明显的自然语言请求
+- `always`：更激进，优先把未解析输入交给 MXTerm
 
-Agent behavior:
+Agent 行为：
 
-- when `agent.enabled = true`, every natural-language request is translated through MXTerm's agent planner
-- small requests usually produce one executable step plus a short plan summary
-- larger requests can expand into multiple ordered shell steps, and MXTerm will require confirmation before execution
-- `preflight_checks` verifies local commands and target directories before a multi-step plan starts
-- `confirm_each_step` lets MXTerm ask before each step of a multi-step plan
-- `retry_on_failure` and `max_retries` control local retry behavior for failed shell steps
-- set `agent.enabled = false` if you want the older single-command translation path
+- 当 `agent.enabled = true` 时，所有自然语言请求都会通过 agent 规划器
+- 小任务通常会生成一条可执行命令和一个简短计划摘要
+- 大任务会展开成多步计划，并在执行前要求确认
+- `preflight_checks` 会在多步计划开始前检查本地命令和目标目录
+- `confirm_each_step` 可以让 MXTerm 在多步计划里逐步确认
+- `retry_on_failure` 和 `max_retries` 用来控制失败步骤的本地重试
+- 如果你想回到旧的单命令翻译路径，可以把 `agent.enabled = false`
 
-Useful commands:
+常用查看命令：
 
 ```bash
 mxterm help
@@ -244,33 +250,33 @@ mxterm hooks refresh --shell zsh
 mxterm hooks doctor --shell zsh
 ```
 
-## One-Shot Usage
+## 单次执行模式
 
-If you have not installed shell hooks yet, you can still use MXTerm directly:
+如果你还没有安装 hook，也可以直接单次执行：
 
 ```bash
-mxterm run --shell powershell --cwd . --input "show files here" --yes
+mxterm run --shell powershell --cwd . --input "帮我看看当前目录" --yes
 ```
 
-## Development
+## 开发与测试
 
 ```bash
 python -m pip install -e .[dev]
 pytest
 ```
 
-## Release Assets
+## 发布能力
 
-The release helper scripts and workflows can:
+当前发布脚本和工作流已经支持：
 
-- build PyInstaller binaries for macOS, Linux, and Windows
-- package platform archives
-- generate per-platform manifest files with size and SHA-256 checksum
-- upload release assets and Python distributions on version tags
+- 为 macOS、Linux、Windows 构建 PyInstaller 二进制
+- 打包平台归档文件
+- 为每个平台生成包含体积和 SHA-256 的 manifest 文件
+- 在版本 tag 上上传 GitHub Release 资产和 Python 发行包
 
-## Limitations
+## 当前限制
 
-- `fish`, `nushell`, and `cmd.exe` are not part of the first release
-- `zsh` and `bash` Enter interception depends on interactive shells with `zle` or `readline` support
-- full PTY terminal emulation is out of scope for this version
-- after you publish to PyPI, you can switch the installer default back to `pipx install mxterm`
+- 暂未支持 `fish`、`nushell`、`cmd.exe`
+- `zsh` / `bash` 的 Enter 自动接管依赖交互式 shell 和 `zle` / `readline`
+- 当前版本不是完整 PTY 终端模拟器
+- 当你后续发布到 PyPI 后，可以把安装脚本默认安装源切回 `pipx install mxterm`
