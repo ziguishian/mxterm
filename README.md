@@ -22,6 +22,16 @@ mxterm config init
 mxterm install --shell auto
 ```
 
+### Install from GitHub right now
+
+If PyPI is not live yet, install directly from this repository:
+
+```bash
+pipx install git+https://github.com/ziguishian/mxterm.git
+mxterm config init
+mxterm install --shell auto
+```
+
 ### Local development install
 
 ```bash
@@ -33,11 +43,11 @@ mxterm install --shell auto
 ### One-line installers
 
 ```bash
-curl -fsSL <install-script-url> | sh
+curl -fsSL https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/install/install.sh | sh
 ```
 
 ```powershell
-irm <install-script-url> | iex
+irm https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/install/install.ps1 | iex
 ```
 
 ### Binary releases
@@ -263,4 +273,4 @@ The release helper scripts and workflows can:
 - `fish`, `nushell`, and `cmd.exe` are not part of the first release
 - `zsh` and `bash` Enter interception depends on interactive shells with `zle` or `readline` support
 - full PTY terminal emulation is out of scope for this version
-- the one-line install scripts still need real release URLs during formal distribution
+- after you publish to PyPI, you can switch the installer default back to `pipx install mxterm`

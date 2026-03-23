@@ -28,6 +28,16 @@ mxterm config init
 mxterm install --shell auto
 ```
 
+### 现在即可从 GitHub 安装
+
+如果你还没有发布到 PyPI，可以直接从当前仓库安装：
+
+```bash
+pipx install git+https://github.com/ziguishian/mxterm.git
+mxterm config init
+mxterm install --shell auto
+```
+
 ### 本地开发安装
 
 ```bash
@@ -39,11 +49,11 @@ mxterm install --shell auto
 ### 一键安装脚本
 
 ```bash
-curl -fsSL <install-script-url> | sh
+curl -fsSL https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/install/install.sh | sh
 ```
 
 ```powershell
-irm <install-script-url> | iex
+irm https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/install/install.ps1 | iex
 ```
 
 ### 二进制发布包
@@ -269,4 +279,4 @@ pytest
 - 暂未支持 `fish`、`nushell`、`cmd.exe`
 - `zsh` / `bash` 的 Enter 自动接管依赖交互式 shell 和 `zle` / `readline`
 - 当前版本不是完整 PTY 终端模拟器
-- 一键安装脚本中的发布 URL 仍需要在正式分发时替换成真实地址
+- 当你后续发布到 PyPI 后，可以把安装脚本默认安装源切回 `pipx install mxterm`

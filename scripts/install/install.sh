@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-PACKAGE_REF="${PACKAGE_REF:-mxterm}"
+PACKAGE_REF="${PACKAGE_REF:-git+https://github.com/ziguishian/mxterm.git}"
 TARGET_SHELL="${MXTERM_SHELL:-auto}"
 
 if ! command -v python3 >/dev/null 2>&1 && ! command -v python >/dev/null 2>&1; then
