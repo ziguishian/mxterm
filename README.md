@@ -4,6 +4,9 @@ MXTerm 是一个跨平台 Shell 增强工具。它接入现有的 `zsh`、`bash`
 
 [English](README.en.md)
 
+<img width="1742" height="837" alt="screenshot-20260323-174113" src="https://github.com/user-attachments/assets/c4ab6fcf-c6ae-464d-8ffa-c622faec83ba" />
+
+
 ## 支持平台
 
 - macOS：优先支持 `zsh`，兼容 `bash`
