@@ -12,3 +12,4 @@ venv/
 release-assets/
 *.log
 .DS_Store
+mxterm.spec

@@ -16,7 +16,7 @@ def sha256(path: Path) -> str:
 
 
 def main() -> None:
-    dist_dir = Path("dist")
+    dist_dir = Path("dist").resolve()
     build_dir = dist_dir / "release"
     build_dir.mkdir(parents=True, exist_ok=True)
     system = platform.system().lower()
@@ -24,12 +24,14 @@ def main() -> None:
         "windows": "mxterm-windows-x64",
         "darwin": "mxterm-macos-universal",
     }.get(system, "mxterm-linux-x86_64")
-    source = dist_dir / ("mxterm.exe" if system == "windows" else "mxterm")
+    source = (dist_dir / ("mxterm.exe" if system == "windows" else "mxterm")).resolve()
+    if not source.exists():
+        raise FileNotFoundError(f"Build artifact not found: {source}")
     target = build_dir / artifact_name
     if system == "windows":
-        archive_path = Path(shutil.make_archive(str(target), "zip", root_dir=source.parent, base_dir=source.name))
+        archive_path = Path(shutil.make_archive(str(target), "zip", root_dir=str(source.parent), base_dir=source.name))
     else:
-        archive_path = Path(shutil.make_archive(str(target), "gztar", root_dir=source.parent, base_dir=source.name))
+        archive_path = Path(shutil.make_archive(str(target), "gztar", root_dir=str(source.parent), base_dir=source.name))
     manifest = {
         "artifact": archive_path.name,
         "platform": system,
