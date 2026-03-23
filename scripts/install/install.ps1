@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$PackageRef = if ($env:PACKAGE_REF) { $env:PACKAGE_REF } else { "git+https://github.com/ziguishian/mxterm.git" }
+$PackageRef = if ($env:PACKAGE_REF) { $env:PACKAGE_REF } else { "mxterm" }
 $TargetShell = if ($env:MXTERM_SHELL) { $env:MXTERM_SHELL } else { "auto" }
 
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
