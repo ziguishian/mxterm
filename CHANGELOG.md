@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+
+- Re-issue the release from the correct commit after the previous tag pointed at an older revision
+- Include the cross-platform PowerShell profile path fix in the tagged release
+
 ## 0.1.3
 
 - Normalize probed PowerShell profile paths so cross-platform tests pass on macOS and Linux runners
