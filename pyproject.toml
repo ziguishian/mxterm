@@ -4,12 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mxterm"
-version = "0.1.1"
+version = "0.1.2"
 description = "MXTerm is a cross-platform shell enhancement tool powered by Ollama."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "OpenAI Codex" }]
-requires-python = ">=3.11"
+requires-python = ">=3.14"
 dependencies = [
   "httpx>=0.28.0",
   "platformdirs>=4.3.0",

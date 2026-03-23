@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+- Align CI, build, and release workflows to Python 3.14
+- Declare Python 3.14 as the supported runtime in package metadata
+- Force GitHub Actions JavaScript actions onto Node 24 to avoid the Node 20 deprecation path
+
 ## 0.1.1
 
 - Point installers to the GitHub repository so users can install MXTerm before PyPI is enabled
