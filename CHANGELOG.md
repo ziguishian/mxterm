@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6
+
+- Switch the default install path in the GitHub and PyPI README to `pipx install mxterm`
+- Keep direct GitHub installation as the fallback option when users want the latest repository version
+- Update one-line install scripts so they default to the PyPI package instead of the GitHub URL
+
 ## 0.1.5
 
 - Configure GitHub release publishing to run in the `pypi` environment for Trusted Publisher uploads
