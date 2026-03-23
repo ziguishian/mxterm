@@ -50,6 +50,7 @@ def _probe_powershell_profile_path() -> Path | None:
     raw = result.stdout.strip()
     if not raw:
         return None
+    raw = raw.replace("\\", "/")
     return Path(raw).expanduser()
 
 

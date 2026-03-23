@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3
+
+- Normalize probed PowerShell profile paths so cross-platform tests pass on macOS and Linux runners
+- Make the test matrix more diagnosable by disabling fail-fast and enabling verbose pytest output
+
 ## 0.1.2
 
 - Align CI, build, and release workflows to Python 3.14
