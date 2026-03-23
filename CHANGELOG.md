@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+- Configure GitHub release publishing to run in the `pypi` environment for Trusted Publisher uploads
+- Make the default README Chinese and split the English guide into `README.en.md`
+- Default installation guidance to the GitHub repository until the first PyPI release is live
+
 ## 0.1.4
 
 - Re-issue the release from the correct commit after the previous tag pointed at an older revision

@@ -20,17 +20,7 @@ MXTerm 是一个跨平台 Shell 增强工具。它接入现有的 `zsh`、`bash`
 
 ## 安装
 
-### 推荐方式：`pipx`
-
-```bash
-pipx install mxterm
-mxterm config init
-mxterm install --shell auto
-```
-
-### 现在即可从 GitHub 安装
-
-如果你还没有发布到 PyPI，可以直接从当前仓库安装：
+### 推荐方式：直接从 GitHub 安装
 
 ```bash
 pipx install git+https://github.com/ziguishian/mxterm.git
@@ -38,7 +28,9 @@ mxterm config init
 mxterm install --shell auto
 ```
 
-### 本地开发安装
+### 如果你已经克隆仓库
+
+也可以在本地源码目录中安装开发版：
 
 ```bash
 python -m pip install -e .[dev]
@@ -54,6 +46,14 @@ curl -fsSL https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/inst
 
 ```powershell
 irm https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/install/install.ps1 | iex
+```
+
+### 后续切换到 PyPI
+
+当前 README 默认使用 GitHub 安装方式。等你后续正式发布到 PyPI 后，再切换为：
+
+```bash
+pipx install mxterm
 ```
 
 ### 二进制发布包
@@ -279,4 +279,4 @@ pytest
 - 暂未支持 `fish`、`nushell`、`cmd.exe`
 - `zsh` / `bash` 的 Enter 自动接管依赖交互式 shell 和 `zle` / `readline`
 - 当前版本不是完整 PTY 终端模拟器
-- 当你后续发布到 PyPI 后，可以把安装脚本默认安装源切回 `pipx install mxterm`
+- 当前 README 默认使用 GitHub 安装方式；发布到 PyPI 后可以再切回 `pipx install mxterm`

@@ -14,17 +14,7 @@ Any terminal application that launches one of these shells can use MXTerm after 
 
 ## Install
 
-### Recommended: `pipx`
-
-```bash
-pipx install mxterm
-mxterm config init
-mxterm install --shell auto
-```
-
-### Install from GitHub right now
-
-If PyPI is not live yet, install directly from this repository:
+### Recommended: install directly from GitHub
 
 ```bash
 pipx install git+https://github.com/ziguishian/mxterm.git
@@ -32,7 +22,9 @@ mxterm config init
 mxterm install --shell auto
 ```
 
-### Local development install
+### If you already cloned the repository
+
+You can also install a local editable development build:
 
 ```bash
 python -m pip install -e .[dev]
@@ -48,6 +40,14 @@ curl -fsSL https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/inst
 
 ```powershell
 irm https://raw.githubusercontent.com/ziguishian/mxterm/main/scripts/install/install.ps1 | iex
+```
+
+### Switch to PyPI later
+
+This README currently defaults to GitHub installation. After MXTerm is published on PyPI, you can switch the primary install command to:
+
+```bash
+pipx install mxterm
 ```
 
 ### Binary releases
@@ -273,4 +273,4 @@ The release helper scripts and workflows can:
 - `fish`, `nushell`, and `cmd.exe` are not part of the first release
 - `zsh` and `bash` Enter interception depends on interactive shells with `zle` or `readline` support
 - full PTY terminal emulation is out of scope for this version
-- after you publish to PyPI, you can switch the installer default back to `pipx install mxterm`
+- this README currently defaults to GitHub installation; after publishing to PyPI, you can switch back to `pipx install mxterm`
