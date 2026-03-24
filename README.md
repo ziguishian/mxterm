@@ -5,6 +5,10 @@ MXTerm 是一个跨平台 Shell 增强工具。它接入现有的 `zsh`、`bash`
 [English](README.en.md)
 
 <img width="1742" height="837" alt="screenshot-20260323-174113" src="https://github.com/user-attachments/assets/c4ab6fcf-c6ae-464d-8ffa-c622faec83ba" />
+<img width="1947" height="1277" alt="image" src="https://github.com/user-attachments/assets/8b79d4e8-5981-4d0c-92b9-c0b94280fb67" />
+<img width="1857" height="1032" alt="screenshot-20260324-095950" src="https://github.com/user-attachments/assets/c5addc74-09f5-4622-8d72-8f4ebc758e81" />
+
+
 
 
 ## 支持平台
