@@ -70,6 +70,52 @@ function Get-MXTermSpinnerFrames {
     return @('|', '/', '-', '.')
 }
 
+function Get-MXTermConfiguredModel {
+    param([string]$MxtermExe = "")
+
+    $fallback = "$env:MXTERM_HOOK_MODEL"
+    if ([string]::IsNullOrWhiteSpace($fallback)) {
+        $fallback = "unknown"
+    }
+
+    $resolvedExe = $MxtermExe
+    if ([string]::IsNullOrWhiteSpace($resolvedExe)) {
+        $command = Get-Command mxterm -ErrorAction SilentlyContinue
+        if ($null -ne $command) {
+            $resolvedExe = $command.Source
+        }
+    }
+
+    if ([string]::IsNullOrWhiteSpace($resolvedExe)) {
+        return $fallback
+    }
+
+    try {
+        $resolvedModel = (& $resolvedExe model current 2>$null | Select-Object -First 1).Trim()
+    } catch {
+        $resolvedModel = ""
+    }
+
+    if ([string]::IsNullOrWhiteSpace($resolvedModel)) {
+        return $fallback
+    }
+
+    return $resolvedModel
+}
+
+function Get-MXTermDecisionModel {
+    param([object]$Decision)
+
+    if ($null -ne $Decision -and $null -ne $Decision.PSObject.Properties["resolved_model"]) {
+        $resolvedModel = [string]$Decision.resolved_model
+        if (-not [string]::IsNullOrWhiteSpace($resolvedModel)) {
+            return $resolvedModel
+        }
+    }
+
+    return Get-MXTermConfiguredModel
+}
+
 function Write-MXTermStatus {
     param(
         [string]$Kind,
@@ -93,6 +139,7 @@ function Show-MXTermDecision {
     param([object]$Decision)
 
     $kind = "success"
+    $modelName = Get-MXTermDecisionModel -Decision $Decision
     if ($Decision.route -eq "block") {
         if ($Decision.message -like "*Please enter another request*") {
             $kind = "warning"
@@ -108,7 +155,7 @@ function Show-MXTermDecision {
     $detailColor = "DarkCyan"
     if ($Decision.source -eq "ai") {
         Write-Host "model " -ForegroundColor $detailColor -NoNewline
-        Write-Host $env:MXTERM_HOOK_MODEL -ForegroundColor White -NoNewline
+        Write-Host $modelName -ForegroundColor White -NoNewline
         if (-not [string]::IsNullOrWhiteSpace($Decision.display_command)) {
             Write-Host "  |  " -ForegroundColor DarkGray -NoNewline
             Write-Host "command " -ForegroundColor $detailColor -NoNewline
@@ -118,7 +165,7 @@ function Show-MXTermDecision {
         }
     } elseif ($Decision.source -eq "agent") {
         Write-Host "model " -ForegroundColor $detailColor -NoNewline
-        Write-Host $env:MXTERM_HOOK_MODEL -ForegroundColor White -NoNewline
+        Write-Host $modelName -ForegroundColor White -NoNewline
         if (-not [string]::IsNullOrWhiteSpace($Decision.display_command)) {
             Write-Host "  |  " -ForegroundColor DarkGray -NoNewline
             Write-Host "command " -ForegroundColor $detailColor -NoNewline
@@ -183,6 +230,7 @@ function Invoke-MXTermResolve {
         return $null
     }
 
+    $modelName = Get-MXTermConfiguredModel -MxtermExe $mxtermExe
     $job = Start-Job -ScriptBlock {
         param($Exe, $CurrentPath, $CurrentLine)
         & $Exe resolve --shell powershell --cwd $CurrentPath --input $CurrentLine --json 2>$null
@@ -192,7 +240,7 @@ function Invoke-MXTermResolve {
     $index = 0
     while ($job.State -eq "Running") {
         $frame = $frames[$index % $frames.Count]
-        Write-Host "`r$frame MXTerm translating with $env:MXTERM_HOOK_MODEL ..." -ForegroundColor Cyan -NoNewline
+        Write-Host "`r$frame MXTerm translating with $modelName ..." -ForegroundColor Cyan -NoNewline
         Start-Sleep -Milliseconds 90
         $index++
         $job = Get-Job -Id $job.Id
@@ -209,7 +257,9 @@ function Invoke-MXTermResolve {
     }
 
     try {
-        return $json | ConvertFrom-Json
+        $decision = $json | ConvertFrom-Json
+        $decision | Add-Member -NotePropertyName resolved_model -NotePropertyValue $modelName -Force
+        return $decision
     } catch {
         Write-MXTermStatus -Kind failure -Message "MXTerm returned invalid decision data."
         return $null

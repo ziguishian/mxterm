@@ -46,7 +46,9 @@ def test_generate_hook_file_exports_session_markers(tmp_path, monkeypatch):
     assert '$env:MXTERM_HOOK_ACTIVE = "1"' in content
     assert '$env:MXTERM_HOOK_SHELL = "powershell"' in content
     assert '$env:MXTERM_HOOK_ENTER_HANDLER = "0"' in content
-    assert '$env:MXTERM_HOOK_MODEL = "qwen3:8b"' in content
+    assert '$env:MXTERM_HOOK_MODEL = "' in content
+    assert "function Get-MXTermConfiguredModel" in content
+    assert "& $resolvedExe model current" in content
     assert "Test-MXTermShouldAutoCapture" in content
     assert "Import-Module PSReadLine -ErrorAction SilentlyContinue" in content
     assert "Invoke-Expression $decision.shell_code | Out-Host" in content
