@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7
+
+- Fix the PowerShell hook so loading spinners and command previews always show the currently configured model
+- Resolve stale model names after `mxterm model use ...` without requiring the hook to be regenerated
+- Add regression coverage for the dynamic PowerShell model lookup path
+
 ## 0.1.6
 
 - Switch the default install path in the GitHub and PyPI README to `pipx install mxterm`
